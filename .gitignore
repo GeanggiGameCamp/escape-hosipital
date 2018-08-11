@@ -1,0 +1,9 @@
+*.ide-wal
+*.ide-shm
+*.ide
+*.lock
+EscapeHospital/Library/metadata/7b/
+EscapeHospital/Library/metadata/96/
+EscapeHospital/Library/ShaderCache/e/
+EscapeHospital/Library/ShaderCache/
+EscapeHospital/Library/metadata/
