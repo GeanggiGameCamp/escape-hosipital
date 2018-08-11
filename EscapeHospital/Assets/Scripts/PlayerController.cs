@@ -32,11 +32,18 @@ public class PlayerController : MonoBehaviour {
 		
 	}
 
+    
+
     private void FixedUpdate()
     {
         var x = Input.GetAxis("Horizontal") * Time.deltaTime * 150.0f;
         var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
 
         transform.Translate(x, 0, 0);
+    }
+
+    void ShowFailText()
+    {
+
     }
 }

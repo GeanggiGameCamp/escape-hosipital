@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\EnemyCollider.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/user/Documents/escape-hosipital/EscapeHospital/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
