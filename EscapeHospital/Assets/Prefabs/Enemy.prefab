@@ -22,9 +22,6 @@ GameObject:
   - component: {fileID: 212898803315731654}
   - component: {fileID: 50402925892639336}
   - component: {fileID: 61314372564405926}
-  - component: {fileID: 114145318653174694}
-  - component: {fileID: 114601340613499696}
-  - component: {fileID: 114750932643813684}
   - component: {fileID: 114053828522093014}
   m_Layer: 0
   m_Name: Enemy
@@ -166,46 +163,6 @@ MonoBehaviour:
   isMovingRight: 0
   isMovingLeft: 1
   gameOver: {fileID: 0}
---- !u!114 &114145318653174694
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1417060054782600}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 050b0d6b36e5cf54ebf89f5a6e9cef6f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  testText: {fileID: 0}
---- !u!114 &114601340613499696
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1417060054782600}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 348de6d8e2174344ea6da8ff7262394d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
---- !u!114 &114750932643813684
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1417060054782600}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b363604b11cda6746be42b14493a8a17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 3
-  leftLimit: {fileID: 4636830678159448}
-  rightLimit: {fileID: 4478971639739888}
-  isMovingRight: 0
-  isMovingLeft: 1
 --- !u!212 &212898803315731654
 SpriteRenderer:
   m_ObjectHideFlags: 1

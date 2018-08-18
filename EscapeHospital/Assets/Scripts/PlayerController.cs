@@ -20,10 +20,9 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    float hSpeed = 0f;
 
-    bool facingRight = true;
 
+    
     private void Awake()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
