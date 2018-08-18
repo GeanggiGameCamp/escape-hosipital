@@ -2,35 +2,45 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Cabinet : MonoBehaviour {
 
-    bool active;
+public class Cabinet : MonoBehaviour
+{
+
     public GameObject player;
 
-	// Use this for initialization
-	void Start () {
-        active = false;
-	}
-	
-	// Update is called once per frame
-	void FixedUpdate () {
-		if(active)
+    bool playerIsActive;
+
+    // Use this for initialization
+    void Start()
+    {
+        playerIsActive = true;
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        if (!playerIsActive)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //player.enabled= false;
+                player.SetActive(true);
+                Debug.Log("player get out of cabinet");
+                playerIsActive = true;
             }
         }
-	}
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        active = true;
     }
-
-    private void OnTriggerExit2D(Collider2D other)
+    
+    private void OnTriggerStay2D(Collider2D other)
     {
-        active = false;
+        if (playerIsActive)
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                player.SetActive(false);
+                Debug.Log("player is hiding");
+                playerIsActive = false;
+                Debug.Log(playerIsActive);
+            }
+        }
     }
-
 }

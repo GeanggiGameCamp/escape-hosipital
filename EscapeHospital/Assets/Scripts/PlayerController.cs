@@ -12,6 +12,14 @@ public class PlayerController : MonoBehaviour {
 
     public float maxSpeed = 100f;
 
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Key"))
+        {
+            other.gameObject.SetActive(false);
+        }
+    }
+
     float hSpeed = 0f;
 
     bool facingRight = true;
