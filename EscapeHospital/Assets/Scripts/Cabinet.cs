@@ -24,7 +24,7 @@ public class Cabinet : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                player.GetComponent<Collider2D>().enabled = true;
+                //player.GetComponent<Collider2D>().enabled = true;
                 player.GetComponent<SpriteRenderer>().enabled = true;
                 Debug.Log("player get out of cabinet");
                 playerIsActive = true;
@@ -38,7 +38,7 @@ public class Cabinet : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                player.GetComponent<Collider2D>().enabled = false;
+                //player.GetComponent<Collider2D>().enabled = false;
                 player.GetComponent<SpriteRenderer>().enabled = false;
                 Debug.Log("player is hiding");
                 playerIsActive = false;

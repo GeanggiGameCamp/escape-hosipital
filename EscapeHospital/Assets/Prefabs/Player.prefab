@@ -38,7 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4432270426742712}
   - component: {fileID: 50528948014382640}
-  - component: {fileID: 114002913536474796}
   - component: {fileID: 212052881568691706}
   - component: {fileID: 61386696330177212}
   - component: {fileID: 114131094549937920}
@@ -142,21 +141,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 24.980001, y: 29.36}
   m_EdgeRadius: 0
---- !u!114 &114002913536474796
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1586864956123202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76e0b776f06315641b881c90f0a3b412, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Timer: {fileID: 114462625890999964}
-  gameOver: {fileID: 114618406185041864}
-  playerLifeTime: 100
-  item: {fileID: 0}
 --- !u!114 &114131094549937920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -169,6 +153,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 1
+  Timer: {fileID: 0}
+  gameOver: {fileID: 0}
+  doorCondition: {fileID: 0}
+  playerLifeTime: 0
+  item: {fileID: 0}
+  leftBullet: {fileID: 0}
+  rightBullet: {fileID: 0}
+  time: 0
 --- !u!114 &114462625890999964
 MonoBehaviour:
   m_ObjectHideFlags: 1
