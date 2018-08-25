@@ -8,18 +8,20 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
-    Rigidbody2D playerRigidBody;
-    CapsuleCollider2D playerCollider;
-
     public float maxSpeed = 100f;
     public Text Timer;
     public Text gameOver;
     public float playerLifeTime;
     public GameObject item;
+    public GameObject leftBullet, rightBullet;
 
+    private Rigidbody2D playerRigidBody;
+    private CapsuleCollider2D playerCollider;
     private const string Format = "f0";
+    private Transform firePos;
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //Collect Items
         if (other.gameObject.CompareTag("Key"))
         {
             other.gameObject.SetActive(false);
@@ -29,7 +31,17 @@ public class PlayerController : MonoBehaviour {
             other.gameObject.SetActive(false);
             playerLifeTime += 10;
         }
+
+        //Hit Enemy
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.SetActive(false);
+            gameOver.enabled = true;
+            Timer.enabled = false;
+
+        }
     }
+
     private void Awake()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
@@ -38,12 +50,17 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
         gameOver.enabled = false;
+        firePos = transform.Find("firePos");
+        
 
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+
 		
 	}
 
@@ -59,17 +76,28 @@ public class PlayerController : MonoBehaviour {
         //Player Life Time Script
         playerLifeTime -= Time.deltaTime;
         Timer.text = "남은시간 : " + playerLifeTime.ToString(Format);
-        print(playerLifeTime);
+        //print(playerLifeTime);
         if (playerLifeTime <= 0)
         {
             playerLifeTime = 0;
             print(playerLifeTime);
             gameOver.enabled = true;
+            Timer.enabled = false;
         }
+
+        //Fire Bullet
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            Fire();
+
+        }
+
     }
 
-    void ShowFailText()
+    private void Fire()
     {
-
+        Instantiate(rightBullet, firePos.position, Quaternion.identity);
     }
+
+    
 }

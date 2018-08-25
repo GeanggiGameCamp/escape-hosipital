@@ -10,23 +10,17 @@ public class EnemyController : MonoBehaviour {
     public Transform rightLimit;
     public bool isMovingRight;
     public bool isMovingLeft;
-    public Text gameOver;
+  
+
 
     private Transform target;
     private bool isPatrol;
 
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            other.gameObject.SetActive(false);
-            gameOver.enabled = true;
-        }
-    }
+    
 
     void Start () {
 
-        gameOver.enabled = false;
+        
         isPatrol = true;
 
         target = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
