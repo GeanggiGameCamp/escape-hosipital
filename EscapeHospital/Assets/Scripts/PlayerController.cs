@@ -8,42 +8,85 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour {
 
-    Rigidbody2D playerRigidBody;
-    CapsuleCollider2D playerCollider;
-
-    public Text scoreText;
     public float maxSpeed = 100f;
+    public Text Timer;
+    public Text gameOver;
+    public Text doorCondition;
+    public float playerLifeTime;
+    public GameObject item;
+    public GameObject leftBullet, rightBullet;
+    public float time;
 
-    private float Score = 0;
+    private Rigidbody2D playerRigidBody;
+    private CapsuleCollider2D playerCollider;
+    private const string Format = "f0";
+    private Transform firePos;
+    private int updateKey;
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
+        //Collect Items
         if (other.gameObject.CompareTag("Key"))
         {
             other.gameObject.SetActive(false);
-            Score++;
+            updateKey = PlayerPrefs.GetInt("keyCount");
+            PlayerPrefs.SetInt("keyCount", ++updateKey);
+        }
+        if (other.gameObject.CompareTag("TimeCapsule"))
+        {
+            other.gameObject.SetActive(false);
+            playerLifeTime += 10;
+        }
+        if (other.gameObject.CompareTag("Gun"))
+        {
+            other.gameObject.SetActive(false);
+            PlayerPrefs.SetInt("playerHasGun", 1);
+
+        }
+        if (other.gameObject.CompareTag("Door"))
+        {
+            doorCondition.enabled = true;
+            StartCoroutine(WaitforSeconds(time));
+        }
+        
+
+        //Hit Enemy
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            other.gameObject.SetActive(false);
+            gameOver.enabled = true;
+            Timer.enabled = false;
+
         }
     }
-    private float hSpeed = 0f;
-    private bool facingRight = true;
+
     private void Awake()
     {
         playerRigidBody = GetComponent<Rigidbody2D>();
         //playerCollider = GetComponent<CapsuleCollider>();
     }
 
-    
-    
     // Use this for initialization
     void Start () {
-		
-	}
+        doorCondition.enabled = false;
+        gameOver.enabled = false;
+        firePos = transform.Find("firePos");
+        
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
+
+
 		
 	}
 
-    
+    bool ToBool(int PlayerPref)
+    {
+        if (PlayerPref == 0) return false;
+        else return true;
+    }
 
     private void FixedUpdate()
     {
@@ -51,16 +94,46 @@ public class PlayerController : MonoBehaviour {
         var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
 
         transform.Translate(x, 0, 0);
+        
+        //Player Life Time Script
+        playerLifeTime -= Time.deltaTime;
+        Timer.text = "남은시간 : " + playerLifeTime.ToString(Format);
+        //print(playerLifeTime);
+        if (playerLifeTime <= 0)
+        {
+            playerLifeTime = 0;
+            print(playerLifeTime);
+            gameOver.enabled = true;
+            Timer.enabled = false;
+        }
 
-        //Score Text Script
+        
+        //Fire Bullet
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            if (ToBool(PlayerPrefs.GetInt("playerHasGun")))
+            Fire();
 
-        scoreText.text = "점수 : " + Score.ToString("f0");
+        }
 
+        //Door Condition Text Update
+        if(updateKey >= 1)
+        {
+            doorCondition.text = "문이 열렸다";
+            
+        }
 
     }
 
-    void ShowFailText()
+    private void Fire()
     {
-
+        Instantiate(rightBullet, firePos.position, Quaternion.identity);
     }
+
+    private IEnumerator WaitforSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        doorCondition.enabled = false;
+    }
+
 }
