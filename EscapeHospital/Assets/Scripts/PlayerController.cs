@@ -11,14 +11,17 @@ public class PlayerController : MonoBehaviour {
     public float maxSpeed = 100f;
     public Text Timer;
     public Text gameOver;
+    public Text doorCondition;
     public float playerLifeTime;
     public GameObject item;
     public GameObject leftBullet, rightBullet;
+    public float time;
 
     private Rigidbody2D playerRigidBody;
     private CapsuleCollider2D playerCollider;
     private const string Format = "f0";
     private Transform firePos;
+    private int updateKey;
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -26,6 +29,8 @@ public class PlayerController : MonoBehaviour {
         if (other.gameObject.CompareTag("Key"))
         {
             other.gameObject.SetActive(false);
+            updateKey = PlayerPrefs.GetInt("keyCount");
+            PlayerPrefs.SetInt("keyCount", ++updateKey);
         }
         if (other.gameObject.CompareTag("TimeCapsule"))
         {
@@ -38,6 +43,12 @@ public class PlayerController : MonoBehaviour {
             PlayerPrefs.SetInt("playerHasGun", 1);
 
         }
+        if (other.gameObject.CompareTag("Door"))
+        {
+            doorCondition.enabled = true;
+            StartCoroutine(WaitforSeconds(time));
+        }
+        
 
         //Hit Enemy
         if (other.gameObject.CompareTag("Enemy"))
@@ -57,7 +68,7 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        doorCondition.enabled = false;
         gameOver.enabled = false;
         firePos = transform.Find("firePos");
         
@@ -73,8 +84,8 @@ public class PlayerController : MonoBehaviour {
 
     bool ToBool(int PlayerPref)
     {
-        if (PlayerPref == 1) return true;
-        else return false;
+        if (PlayerPref == 0) return false;
+        else return true;
     }
 
     private void FixedUpdate()
@@ -105,6 +116,13 @@ public class PlayerController : MonoBehaviour {
 
         }
 
+        //Door Condition Text Update
+        if(updateKey >= 1)
+        {
+            doorCondition.text = "문이 열렸다";
+            
+        }
+
     }
 
     private void Fire()
@@ -112,5 +130,10 @@ public class PlayerController : MonoBehaviour {
         Instantiate(rightBullet, firePos.position, Quaternion.identity);
     }
 
-    
+    private IEnumerator WaitforSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
+        doorCondition.enabled = false;
+    }
+
 }
