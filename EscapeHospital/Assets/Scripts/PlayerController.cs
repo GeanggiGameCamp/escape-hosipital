@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     private CapsuleCollider2D playerCollider;
     private const string Format = "f0";
     private Transform firePos;
+    
     private void OnTriggerEnter2D(Collider2D other)
     {
         //Collect Items
@@ -26,10 +27,16 @@ public class PlayerController : MonoBehaviour {
         {
             other.gameObject.SetActive(false);
         }
-        if (other.gameObject.CompareTag("Item"))
+        if (other.gameObject.CompareTag("TimeCapsule"))
         {
             other.gameObject.SetActive(false);
             playerLifeTime += 10;
+        }
+        if (other.gameObject.CompareTag("Gun"))
+        {
+            other.gameObject.SetActive(false);
+            PlayerPrefs.SetInt("playerHasGun", 1);
+
         }
 
         //Hit Enemy
@@ -64,7 +71,11 @@ public class PlayerController : MonoBehaviour {
 		
 	}
 
-    
+    bool ToBool(int PlayerPref)
+    {
+        if (PlayerPref == 1) return true;
+        else return false;
+    }
 
     private void FixedUpdate()
     {
@@ -85,9 +96,11 @@ public class PlayerController : MonoBehaviour {
             Timer.enabled = false;
         }
 
+        
         //Fire Bullet
         if(Input.GetKeyDown(KeyCode.Space))
         {
+            if (ToBool(PlayerPrefs.GetInt("playerHasGun")))
             Fire();
 
         }
