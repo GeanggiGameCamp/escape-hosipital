@@ -7,6 +7,10 @@ TagManager:
   - Enemy
   - Key
   - InteractiveStuff
+  - Item
+  - TimeCapsule
+  - Gun
+  - Bullet
   layers:
   - Default
   - TransparentFX

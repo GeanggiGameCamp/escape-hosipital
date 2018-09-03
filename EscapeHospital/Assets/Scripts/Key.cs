@@ -1,25 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Key : MonoBehaviour
 {
+    public GameObject panel;
+    public Text text;
 
-    public GameObject player;
-
-    bool KeyIsActive;
-
-    // Use this for initialization
     private void Start()
     {
-        KeyIsActive = true;
+        if (FloorReset.keyIsUsed) this.gameObject.SetActive(false);
     }
 
-    // Update is called once per frame
-    private void Update()
+    private void OnTriggerEnter2D(Collider2D others)
     {
-        if (KeyIsActive)
+
+        if (others.gameObject.CompareTag("Player"))
         {
+            int updateKey = PlayerPrefs.GetInt("keyCount");
+            PlayerPrefs.SetInt("keyCount", ++updateKey);
+            panel.SetActive(true);
+            StartCoroutine(OnPanel());
+            FloorReset.keyIsUsed = true;
         }
+
     }
+
+    IEnumerator OnPanel()
+    {
+        text.text = "열쇠를 얻었다";
+        yield return new WaitForSeconds(1.0f);
+        panel.SetActive(false);
+        Destroy(this.gameObject);
+        this.gameObject.SetActive(false);
+    }
+
 }

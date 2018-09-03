@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4744553854786352}
   - component: {fileID: 212268409241584570}
   - component: {fileID: 70507610537483996}
+  - component: {fileID: 114837837638100508}
   m_Layer: 0
   m_Name: Timecapsule
-  m_TagString: Item
+  m_TagString: TimeCapsule
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,7 +37,7 @@ Transform:
   m_GameObject: {fileID: 1176822846993590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -8.391, y: -1.166, z: 2.5429688}
-  m_LocalScale: {x: 0.702, y: 0.54, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -56,6 +57,19 @@ CapsuleCollider2D:
   m_Offset: {x: 0.038091615, y: 0}
   m_Size: {x: 1.9438171, y: 2.626}
   m_Direction: 0
+--- !u!114 &114837837638100508
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1176822846993590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c034d06a1d7a71c488a46f8fb31bdc82, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  panel: {fileID: 0}
+  text: {fileID: 0}
 --- !u!212 &212268409241584570
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -91,7 +105,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 2f4c343a45ea6eb4a8934d9769835675, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 0a6d19b59c7353d46b45e10ba78628bd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

@@ -19,18 +19,6 @@ public class Bullet_Controller : MonoBehaviour {
         }
     }
 
-    /*private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Enemy"))
-        {
-            Debug.Log("bullet hits the enemy");
-            Destroy(other.gameObject);
-            Destroy(gameObject);
-        }
-    }*/
-
-
-
     void Start () {
         rb = GetComponent<Rigidbody2D>();
         rb.velocity = speed;

@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Cabinet : MonoBehaviour
 {
 
     public GameObject player;
-
+    public GameObject panel;
+    public Text text;
 
     bool playerIsActive;
 
@@ -24,25 +26,42 @@ public class Cabinet : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                //player.GetComponent<Collider2D>().enabled = true;
-                player.GetComponent<SpriteRenderer>().enabled = true;
-                Debug.Log("player get out of cabinet");
+                player.SetActive(true);
+                player.GetComponent<PlayerController>().enabled = true;
                 playerIsActive = true;
             }
         }
     }
-    
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("Player"))
+        {
+            panel.SetActive(true);
+            StartCoroutine(OnPanel());
+        }
+    }
+
+    IEnumerator OnPanel()
+    {
+        text.text = "캐비닛이다. Space를 이용해서 적의 눈을 피해 숨어있을 수 있다.";
+        yield return new WaitForSeconds(1.0f);
+        panel.SetActive(false);
+    }
+
     private void OnTriggerStay2D(Collider2D other)
     {
-        if (playerIsActive)
+        if (other.gameObject.CompareTag("Player"))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (playerIsActive)
             {
-                //player.GetComponent<Collider2D>().enabled = false;
-                player.GetComponent<SpriteRenderer>().enabled = false;
-                Debug.Log("player is hiding");
-                playerIsActive = false;
-                Debug.Log(playerIsActive);
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    player.SetActive(false);
+                    player.GetComponent<PlayerController>().enabled = false;
+                    playerIsActive = false;
+                    Debug.Log(playerIsActive);
+                }
             }
         }
     }

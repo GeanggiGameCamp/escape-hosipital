@@ -8,9 +8,13 @@ public class InteractiveStuff : MonoBehaviour
     public GameObject interactiveStuff;
     public GameObject included;
 
+    //private static bool _used = false;
+
     public void Start()
     {
         included.SetActive(false);
+
+        if (FloorReset.boxIsOpen) this.gameObject.SetActive(false);
     }
  
 
@@ -22,6 +26,8 @@ public class InteractiveStuff : MonoBehaviour
             {
                 interactiveStuff.SetActive(false);
                 included.SetActive(true);
+                FloorReset.boxIsOpen = true;
+                //Destroy(this.gameObject);
             }
         }
     }

@@ -10,16 +10,17 @@ public class EnemyController : MonoBehaviour {
     public Transform rightLimit;
     public bool isMovingRight;
     public bool isMovingLeft;
+    public GameObject player;
   
-
 
     private Transform target;
     private bool isPatrol;
-
+    //private bool _isdead = false;
     
 
     void Start () {
 
+        //if (_isdead) this.gameObject.SetActive(false);
         
         isPatrol = true;
 
@@ -30,15 +31,21 @@ public class EnemyController : MonoBehaviour {
 	
 	void Update () {
 
+
         //PlayerFollower Script
-        if (Vector2.Distance(transform.position, target.position) < 10)
+        if (Vector2.Distance(transform.position, target.position) < 10 && player.activeSelf)
         {
+            if(this.transform.position.x - target.position.x >= 0)
+                this.GetComponent<SpriteRenderer>().flipX = false;
+            else if(this.transform.position.x - target.position.x < 0)
+                this.GetComponent<SpriteRenderer>().flipX = true;
+
             transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
             isPatrol = false;
         }
 
 
-        if(Vector2.Distance(transform.position, target.position) > 10)
+        if(Vector2.Distance(transform.position, target.position) > 10 || !player.activeSelf)
         {
             isPatrol = true;
         }
@@ -49,7 +56,7 @@ public class EnemyController : MonoBehaviour {
             if (isMovingRight)
             {
                 transform.position = Vector2.MoveTowards(transform.position, rightLimit.position, Time.deltaTime * speed);
-
+                this.GetComponent<SpriteRenderer>().flipX = true;
                 ArriveRightLimit();
 
             }
@@ -57,10 +64,15 @@ public class EnemyController : MonoBehaviour {
             if (isMovingLeft)
             {
                 transform.position = Vector2.MoveTowards(transform.position, leftLimit.position, Time.deltaTime * speed);
-
+                this.GetComponent<SpriteRenderer>().flipX = false;
                 ArriveLeftLImit();
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D others)
+    {
+        if (others.gameObject.CompareTag("Bullet")) Destroy(this.gameObject);
     }
 
     void ArriveRightLimit()

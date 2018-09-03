@@ -2,85 +2,59 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-
-
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour {
 
-    public float maxSpeed = 100f;
-    public Text Timer;
+    public float maxSpeed;
     public Text gameOver;
-    public Text doorCondition;
-    public float playerLifeTime;
-    public GameObject item;
-    public GameObject leftBullet, rightBullet;
+    public GameObject bullet;
     public float time;
+    public GameObject player;
 
-    private Rigidbody2D playerRigidBody;
-    private CapsuleCollider2D playerCollider;
     private const string Format = "f0";
-    private Transform firePos;
+    private float playerLifeTime;
+    private Transform firePosR;
+    private Transform firePosL;
     private int updateKey;
-    
+    private bool _fireRight = true;
+    private float _speed = 10.0f;
+
+    // Use this for initialization
+    void Start()
+    {
+        gameOver.enabled = false;
+        firePosR = transform.Find("firePosR");
+        firePosL = transform.Find("firePosL");
+        player.transform.position = new Vector3(PlayerPrefs.GetFloat("PosX"), PlayerPrefs.GetFloat("PosY"), this.transform.position.z);
+    }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         //Collect Items
-        if (other.gameObject.CompareTag("Key"))
-        {
-            other.gameObject.SetActive(false);
-            updateKey = PlayerPrefs.GetInt("keyCount");
-            PlayerPrefs.SetInt("keyCount", ++updateKey);
-        }
-        if (other.gameObject.CompareTag("TimeCapsule"))
-        {
-            other.gameObject.SetActive(false);
-            playerLifeTime += 10;
-        }
+        
         if (other.gameObject.CompareTag("Gun"))
         {
             other.gameObject.SetActive(false);
             PlayerPrefs.SetInt("playerHasGun", 1);
 
-        }
-        if (other.gameObject.CompareTag("Door"))
-        {
-            doorCondition.enabled = true;
-            StartCoroutine(WaitforSeconds(time));
-        }
-        
+        }        
 
         //Hit Enemy
         if (other.gameObject.CompareTag("Enemy"))
         {
-            other.gameObject.SetActive(false);
             gameOver.enabled = true;
-            Timer.enabled = false;
-
+            _speed = 0.0f;
+            StartCoroutine(GoToMainMenu());
         }
     }
 
-    private void Awake()
+    IEnumerator GoToMainMenu()
     {
-        playerRigidBody = GetComponent<Rigidbody2D>();
-        //playerCollider = GetComponent<CapsuleCollider>();
+        yield return new WaitForSeconds(1.0f);
+        SceneManager.LoadScene("Main");
+        this.gameObject.SetActive(false);
     }
-
-    // Use this for initialization
-    void Start () {
-        doorCondition.enabled = false;
-        gameOver.enabled = false;
-        firePos = transform.Find("firePos");
-        
-
-    }
-	
-	// Update is called once per frame
-	void Update () {
-
-
-		
-	}
 
     bool ToBool(int PlayerPref)
     {
@@ -90,22 +64,21 @@ public class PlayerController : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        var x = Input.GetAxis("Horizontal") * Time.deltaTime * 50.0f;
-        var z = Input.GetAxis("Vertical") * Time.deltaTime * 3.0f;
+
+        var x = Input.GetAxis("Horizontal") * Time.deltaTime * _speed;
+        if(Input.GetAxis("Horizontal")>0)
+        {
+            _fireRight = true;
+            this.GetComponent<SpriteRenderer>().flipX = true;
+        }
+
+        else if(Input.GetAxis("Horizontal")<0)
+        {
+            _fireRight = false;
+            this.GetComponent<SpriteRenderer>().flipX = false;
+        }
 
         transform.Translate(x, 0, 0);
-        
-        //Player Life Time Script
-        playerLifeTime -= Time.deltaTime;
-        Timer.text = "남은시간 : " + playerLifeTime.ToString(Format);
-        //print(playerLifeTime);
-        if (playerLifeTime <= 0)
-        {
-            playerLifeTime = 0;
-            print(playerLifeTime);
-            gameOver.enabled = true;
-            Timer.enabled = false;
-        }
 
         
         //Fire Bullet
@@ -116,24 +89,25 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        //Door Condition Text Update
-        if(updateKey >= 1)
-        {
-            doorCondition.text = "문이 열렸다";
-            
-        }
+        float f = PlayerPrefs.GetFloat("PosX");
+        Debug.Log(f);
 
     }
 
     private void Fire()
     {
-        Instantiate(rightBullet, firePos.position, Quaternion.identity);
-    }
+        if (_fireRight)
+        {
+            bullet.GetComponent<SpriteRenderer>().flipX = true;
+            bullet.GetComponent<Bullet_Controller>().speed = new Vector2(7.0f, 0.0f);
+            Instantiate(bullet, firePosR.position, Quaternion.identity);
+        }
 
-    private IEnumerator WaitforSeconds(float time)
-    {
-        yield return new WaitForSeconds(time);
-        doorCondition.enabled = false;
+        else
+        {
+            bullet.GetComponent<SpriteRenderer>().flipX = false;
+            bullet.GetComponent<Bullet_Controller>().speed = new Vector2(-7.0f, 0.0f);
+            Instantiate(bullet, firePosL.position, Quaternion.identity);
+        }
     }
-
 }
